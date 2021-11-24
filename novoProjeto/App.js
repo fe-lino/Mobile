@@ -1,112 +1,84 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
-import React from 'react';
-import type {Node} from 'react';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
+  Button,
   StyleSheet,
   Text,
-  useColorScheme,
+  Touchable,
   View,
 } from 'react-native';
+import { Header } from 'react-native/Libraries/NewAppScreen';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import api from './src/services/api';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+class App extends Component {
+  constructor(props){
+      super(props);
+      this.state = {
+        diagnostico : []
+      };
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+  buscarDiag = async () =>{
+    const resposta = await api.get('/DiagnosticoSp')
+    const dadosDaApi = resposta.data;
+    this.setState({ diagnostico : dadosDaApi })
+  };
+
+  componentDidMount(){
+    this.buscarDiag();
+  }
+
+  render(){
+    return (
+      <View style={styles.main}>
+        {/*Header*/ }
+        <View style={styles.mainHeader}>
+
+          <View style={styles.mainHeaderRow}>
+            {/* <Text style={styles.texto}>SP Medical</Text> */}
+            <Button onPress={() => {alert('não tem menu ainda');}} title="Press Me"/>
+            <Text style={styles.texto}>{"Diagnosticos".toLocaleUpperCase()}</Text>
+            {/* Text style={styles.texto}>Atendimento</Text>< */}
+          </View>
+
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+
+  main: {
+    flex: 0.5,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+
+  mainHeader:{
+    flex: 1,
+    width:411, 
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  
+  mainHeaderRow:{
+    padding:5,
+    backgroundColor:"#004186",
+    justifyContent:'space-evenly',
+    alignItems:'center',
+    flexDirection:"row",
+    height:50,
   },
-  highlight: {
-    fontWeight: '700',
+
+  texto:{
+    color: 'white',
+    fontSize:15,
+    fontFamily:'Red Hat Text', 
+    fontWeight:'bold',
   },
+
 });
 
 export default App;
