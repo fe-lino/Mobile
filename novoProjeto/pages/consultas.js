@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Header } from 'react-native-elements';
 import { Left, Right, Icon } from 'native-base';
 
-class home extends Component {
+class consultas extends Component {
     render() {
         return (
             <View style={styles.container}>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
         flex: 1
     }
 });
-export default home;
+export default consultas;
